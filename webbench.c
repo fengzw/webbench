@@ -112,12 +112,12 @@ int main(int argc, char *argv[])
 				  break;
 			  }
 			  if (tmp == optarg) {
-				  fprintf(stderr, "Error in option --proxy %s:
+				  fprintf(stderr, "Error in option --proxy %s: \
 					  Missing hostname.\n", optarg);
 				  return 2;
 			  }
 			  if (tmp == optarg+strlen(optarg)-1) {
-				  fprintf(stderr, "Error in option --proxy %s:
+				  fprintf(stderr, "Error in option --proxy %s: \
 					  Port number is missing.\n", optarg);
 				  return 2;
 			  }
@@ -194,7 +194,7 @@ void build_request(const char *url)
 	bzero(host, MAXHOSTNAMELEN);
 	bzero(request, REQUEST_SIZE);
 	
-	if (force_reload && proxyport != NULL && http10 < 1)
+	if (force_reload && proxyhost != NULL && http10 < 1)
 		http10 = 1;
 	if (method == METHOD_HEAD && http10 < 1)
 		http10 = 1;
@@ -217,7 +217,7 @@ void build_request(const char *url)
 
 	strcat(request, " ");
 
-	if (NULL = strstr(url, "://")) {
+	if (NULL == strstr(url, "://")) {
 		fprintf(stderr, "\n%s: is not a valid URL.\n",url);
 		exit(2);
 	}
@@ -227,9 +227,9 @@ void build_request(const char *url)
 		exit(2);
 	}
 
-	if (proxyport == NULL) {
+	if (proxyhost == NULL) {
 		if (0 != strncasecmp("http://", url, 7)) {
-			printf(stderr, "\nOnly HTTP protocol 
+			fprintf(stderr, "\nOnly HTTP protocol \
 			       is directly supported, set --proxy for others.\n");
 			exit(2);
 		}
@@ -280,7 +280,7 @@ void build_request(const char *url)
 		strcat(request,"User-Agent: WebBench "PROGRAM_VERSION"\r\n");
 	}
 
-	if (proxyport == NULL && http10 > 0) {
+	if (proxyhost == NULL && http10 > 0) {
 		strcat(request, "Host: ");
 		strcat(request, host);
 		strcat(request, "\r\n");
@@ -383,8 +383,8 @@ static int bench(void)
 				break;
 		}
 		fclose(f);
-		printf("\nSpeed=%d pages/min, %d bytes/sec.\n
-		       Requests: %d susceed, %d failed.\n",
+		printf("\nSpeed=%d pages/min, %d bytes/sec.\n \
+			Requests: %d susceed, %d failed.\n",
 		      (int)((speed+failed)/(benchtime/60.0f)),
 		     (int)(bytes/(float)benchtime), speed, failed);
 	}
@@ -399,7 +399,7 @@ void benchcore(const char *host, const int port, const char *req)
 	struct sigaction sa;
 	/* setup alarm signal handler */ 
 	sa.sa_handler = alarm_handler;
-	sa.sa_flag = 0;
+	sa.sa_flags = 0;
 	if (sigaction(SIGALRM, &sa, NULL)) {
 		exit(3);
 	}
