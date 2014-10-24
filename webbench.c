@@ -146,8 +146,44 @@ int main(int argc, char *argv[])
 		"Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.\n"
 		);
 	build_request(argv[optind]);
+	/* print bench info */
+	switch(method) {
+	case METHOD_GET:
+	default:
+		printf("GET"); break;
+	case METHOD_OPTIONS:
+		printf("OPTIONS");break;
+	case METHOD_HEAD:
+		printf("HEAD");break;
+	case METHOD_TRACE:
+		printf("TRACE");break;
+	}
 
-	return 0;
+	printf("%s", argv[optind]);
+
+	switch(http10) {
+	case 0: printf(" (using HTTP/0.9)"); break;
+	case 2: printf(" (using HTTP/1.1)"); break;
+	}
+
+	printf("\n");
+
+	if (clients == 1) 
+		printf("1 clients");
+	else 
+		printf("%d clients", clients);
+
+	printf(", running %d sec", benchtime);
+	if(force) printf(", early socket close");
+
+	if(proxyhost!=NULL) 
+		printf(", via proxy server %s:%d",proxyhost,proxyport); 
+
+	if(force_reload)
+		printf(", forcing reload");
+	printf(".\n");
+
+	return bench();
 }
 
 void build_request(const char *url)
