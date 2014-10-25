@@ -24,14 +24,14 @@ int Socket(const char *host, int clientPort)
 
 	inaddr = inet_addr(host);
 	if (inaddr != INADDR_NONE) {
-		memcpy(&ad.sin_addr, &inaddr, sizeof(inadd));
+		memcpy(&ad.sin_addr, &inaddr, sizeof(inaddr));
 	}
 	else {
 		hp = gethostbyname(host);
 		if (hp == NULL) {
 			return -1;
 		}
-		memcpy(&ad,sin_addr, hp->h_addr, hp->h_length);
+		memcpy(&ad.sin_addr, hp->h_addr, hp->h_length);
 	}
 	ad.sin_port = htons(clientPort);
 
@@ -45,5 +45,4 @@ int Socket(const char *host, int clientPort)
 
 	return sock;
 }
-	}
 
