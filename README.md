@@ -1,7 +1,9 @@
 ### Webbench with code refined
 
-Copy the content of original files, including the comments, 
+The directory webbench-1.5 is the original source code.
 
-only change the coding style.
+Website : http://home.tiscali.cz/~cz210552/webbench.html
+
+My work is just changing the coding style.
 
 -Runzhen
